@@ -1,0 +1,37 @@
+model = tf.keras.models.load_model('trained_model2.h5')
+output = []
+
+
+description = []
+content = []
+date = []
+title = []
+source = []
+publication = []
+keyWords = []
+
+
+df = pd.read_csv("newsData.csv")
+
+
+for index, row in df.iterrows():
+    description.append(row["Description"])
+    content.append(row["Content"])
+    #date.append(row["Date"])
+    title.append(row["Title"])
+    source.append(row["Source"])
+    #publication.append(row["Publication"])
+    #keyWords.append(row["KeyWords"])
+
+
+for i in range(len(description)):
+    description = description[i]
+    input_array = np.array([description])
+    for value in description:
+        input_value = np.array([value])
+        result = model.predict(input_value)
+        output.append(result)
+
+    output_results = [model.predict(np.array([value])) for value in input_array]
+
+    print(output)
